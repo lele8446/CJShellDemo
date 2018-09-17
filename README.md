@@ -1,6 +1,7 @@
 ## CJShellDemo 说明
 
 * ArchiveSource 一键打包程序资源
+* CJCrashTools 崩溃Crash查找工具
 * CrashScript 线上crash查找脚本
 * ReleaseDir Xcode打包脚本
 
