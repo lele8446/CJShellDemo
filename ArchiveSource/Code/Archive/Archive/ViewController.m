@@ -60,6 +60,9 @@ static char kAssociatedProvisioningProfile;
 @property (nonatomic, weak) IBOutlet NSButton *plistButton;
 @property (nonatomic, weak) IBOutlet NSTextField *plistWarnLabel;
 
+//是否需要删除xcarchive文件
+@property (nonatomic, weak) IBOutlet NSButton *deleteXcarchiveButton;
+
 //一键打包
 @property (nonatomic, weak) IBOutlet NSButton *archiveButton;
 //耗时
@@ -224,14 +227,20 @@ static char kAssociatedProvisioningProfile;
     
     NSMutableArray *allProArray = [[NSMutableArray alloc] init];
     NSArray *prolist = [IPAToolUtls getAllProvisioningProfileList];
+    __block NSString *profilePath = nil;
     [prolist enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSString *path = [NSString stringWithFormat:@"%@/%@/%@", NSHomeDirectory(), kMobileprovisionDirName,obj];
+        profilePath = [NSString stringWithFormat:@"%@/%@", NSHomeDirectory(), kMobileprovisionDirName];
+        NSString *path = [NSString stringWithFormat:@"%@/%@", profilePath,obj];
         YAProvisioningProfile *profile = [[YAProvisioningProfile alloc] initWithPath:path];
 //        if ([profile.debug isEqualToString:@"NO"] && [profile.valid isEqualToString:@"YES"]){
 //            [allProArray addObject:profile];
 //        }
         [allProArray addObject:profile];
     }];
+    
+    [self changeLogStr:@"\n+++++++++++++++++++++++++++++++++++++++++++++++++\n"];
+    [self changeLogStr:[NSString stringWithFormat:@"打包证书路径：%@",profilePath]];
+    [self changeLogStr:@"\n+++++++++++++++++++++++++++++++++++++++++++++++++\n\n"];
     
     NSMutableArray *handleProNameArray = [NSMutableArray arrayWithCapacity:3];
     [allProArray enumerateObjectsUsingBlock:^(YAProvisioningProfile *profile, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -314,6 +323,7 @@ static char kAssociatedProvisioningProfile;
         for (NSURL *url in [panel URLs]) {
             
             NSString *path = url.absoluteString;
+            path = [path stringByRemovingPercentEncoding];
             NSString *fileExtension = [path pathExtension];
             if ([fileExtension isEqualToString:@"xcodeproj"] || [fileExtension isEqualToString:@"xcworkspace"]) {
                 path = [path stringByReplacingOccurrencesOfString:@"file://" withString:@""];
@@ -457,6 +467,12 @@ static char kAssociatedProvisioningProfile;
 }
 
 #pragma mark 点击默认签名
+- (IBAction)xcarchiveButtonClick:(NSButton *)sender {
+    if ([self projectPathIsNull]) {
+        sender.state = !sender.state;
+    }
+}
+
 - (IBAction)signButtonClick:(NSButton *)sender {
     if ([self projectPathIsNull]) {
         sender.state = !sender.state;
@@ -637,6 +653,7 @@ static char kAssociatedProvisioningProfile;
                       @"-r",profile.name,//PROVISIONING_PROFILE_SPECIFIER（证书名）
                       @"-o",self.exportOptionsPath,
                       @"-v",appVerssion,//版本号
+                      @"-w",((self.deleteXcarchiveButton.state == NSOnState)?@"YES":@"NO"),//是否需要删除xcarchive文件
                       ];
 
     [self launchShellName:@"xcodebuild" arguments:args completionHandler:^{
@@ -714,7 +731,12 @@ static char kAssociatedProvisioningProfile;
             [self changeLogStr:[NSString stringWithFormat:@"===================== APP ID：%@ ===================\n",AppBundleIdentifier]];
             
             [self.appIDButton addItemWithObjectValue:AppBundleIdentifier];
-            
+            if ([AppBundleIdentifier isEqualToString:@"com.bitone.allApp"]) {
+                [self.appIDButton addItemWithObjectValue:@"com.bitauto.ework"];
+            }
+            else if ([AppBundleIdentifier isEqualToString:@"com.bitauto.ework"]){
+                [self.appIDButton addItemWithObjectValue:@"com.bitone.allApp"];
+            }
             [self.appIDButton selectItemAtIndex:0];
             self.appIDStr = self.appIDButton.selectedCell.title;
             self.appIDWarnLabel.hidden = YES;
@@ -783,10 +805,15 @@ static char kAssociatedProvisioningProfile;
     for (int i = 0; i < self.profileButton.itemArray.count; i++) {
         NSMenuItem *item = self.profileButton.itemArray[i];
         profile = objc_getAssociatedObject(item, &kAssociatedProvisioningProfile);
-        if ([profile.bundleIdentifier isEqualToString:appBundleIdentifier] && ![item.title hasPrefix:@"XC:"] && profile.newest) {
+        if ([profile.bundleIdentifier isEqualToString:appBundleIdentifier] &&
+            ![item.title hasPrefix:@"XC:"] &&
+            profile.newest &&
+            ![profile.debug isEqualToString:@"YES"]) {
+            
             [self.profileButton selectItemAtIndex:i];
             haveProfileSelect = YES;
             break;
+            
         }
     }
     
