@@ -7,12 +7,7 @@
 	<key>method</key>
 	<string>enterprise</string>
 	<key>provisioningProfiles</key>
-	<dict>
-		<key>com.bitauto.ework</key>
-		<string>eworkpro_17.11.08_release</string>
-		<key>com.bitone.allApp</key>
-		<string>crmAppRelease</string>
-	</dict>
+	<dict/>
 	<key>uploadBitcode</key>
 	<string>NO</string>
 	<key>uploadSymbols</key>

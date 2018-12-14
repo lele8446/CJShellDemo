@@ -6,23 +6,23 @@
 	<dict>
 		<key>Resources/Assets.car</key>
 		<data>
-		qgr1Ck5zE6QZVk0GKPY7ZcZp8c4=
+		A3bkHwNO0wpZ160dbDtEEhBZ9o4=
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/Info.plist</key>
 		<data>
-		QfampzT3/752EmA9TTwq3b8DIDo=
+		sxr5C+PYtF+ydeGBz1qlfUpdSOs=
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/MainMenu.nib</key>
 		<data>
-		0hKB4Znyd9chGpAFp0ML5wyk3LE=
+		/6SzSzxfaQ+rYpl6hs6N6rKb738=
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/NSViewController-XfG-lQ-9wD.nib</key>
 		<data>
-		vepFdetVOWGujdmRMcZJQQMiatU=
+		ZrlIAW1jICgDZoIQ7jjJ3pLbBGg=
 		</data>
 		<key>Resources/Base.lproj/Main.storyboardc/XfG-lQ-9wD-view-m2S-Jp-Qdl.nib</key>
 		<data>
-		xRgQCZMJYlNWoQikm8Oie0XCvWU=
+		YWpEhMaXjzwDZp9H16glPyNK7fk=
 		</data>
 		<key>Resources/git.sh</key>
 		<data>
@@ -30,7 +30,7 @@
 		</data>
 		<key>Resources/xcodebuild.sh</key>
 		<data>
-		NDsk5cFryp7e9CtpbQ70b+rs6Jw=
+		umc3pCGlzXmhBOwJrZbvvjq1n2Q=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -39,35 +39,35 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			YuborRguie+Vgw7i/fj5J5F4fnS517XaN2SKxvK+Qdg=
+			VtXI3Zo68jmDrKQy7bTT6XczFxdJymCsVWbXI5qF1sA=
 			</data>
 		</dict>
 		<key>Resources/Base.lproj/Main.storyboardc/Info.plist</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			QGA1DZptlXX1cdrvxGzt2EQudEplk8yxdPe7NmoZaDw=
+			JzpAgpS2gJiSP9djHO9CO1ZQPon/EnK5bjvzTvOtEhQ=
 			</data>
 		</dict>
 		<key>Resources/Base.lproj/Main.storyboardc/MainMenu.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			6OcUW395TOr7duSGwYhA0roTUeQEjsgUQEGh7MsWB1c=
+			hmBBL/sFLKpFGgpYCCMVO+tPPllQRHB4WelUAiomTtU=
 			</data>
 		</dict>
 		<key>Resources/Base.lproj/Main.storyboardc/NSViewController-XfG-lQ-9wD.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			BLzeZHzntuqgDiOa4jeEZqjp4adFJfA2i6ECvQ4Nkcs=
+			3o3InxXKFOysTbl8F4VoDM3CUMqaxJuTd5BiXUKu8yg=
 			</data>
 		</dict>
 		<key>Resources/Base.lproj/Main.storyboardc/XfG-lQ-9wD-view-m2S-Jp-Qdl.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Ia9xp3aEq+B6JPQbWTvEZN50WQMK8Gkz+nsyMXgmiys=
+			cO5uLKv/+64tX1z2R/xOyW7VnNNDMfO8fBFP4Y1KM1o=
 			</data>
 		</dict>
 		<key>Resources/git.sh</key>
@@ -81,7 +81,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			RqYWTV3Zk1Nw0l6FcbZpMTJVrw0wo1tOKjiFG2oX5S4=
+			WwLc7jbP6DWyjHuun93qAe/DbqcFvIXi36h6zz0vNIc=
 			</data>
 		</dict>
 	</dict>

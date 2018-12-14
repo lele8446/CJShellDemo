@@ -17,6 +17,7 @@
 #     -o <ExportOptionsPlistPath> ExportOptionsPlist文件地址
 #	  -v <APP_Version>            app版本号（示例：3_1_1）
 #	  -e <Error_Prefix>           默认出错日志前缀
+#     -w <YES or NO>              打包完成是否删除.xcarchive文件
 
 APP_ID=""
 APP_Version=""
@@ -26,7 +27,8 @@ Profile_Specifier=""
 Development_Team=""
 Custom_Sign="NO"
 ExportOptionsPlistPath=""
-while getopts ":p:a:n:s:f:r:d:c:o:v:e:" opt
+NeedDelete_Xcarchive="NO"
+while getopts ":p:a:n:s:f:r:d:c:o:v:e:w:" opt
 do
 	case $opt in
 	# 项目路径
@@ -80,6 +82,10 @@ do
     # 默认出错日志前缀
     e)
         Error_Prefix=$OPTARG;
+    ;;
+    # 打包完成是否删除.xcarchive文件
+    w)
+        NeedDelete_Xcarchive=$OPTARG;
     ;;
 	# 匹配其他选项
 	\?)
@@ -369,6 +375,37 @@ changeAppVersion(){
 		exit 1;
 	fi
 
+	# 修改分享平台参数
+	changeShareConfing
+}
+
+# 修改分享平台参数
+changeShareConfing(){
+	echo ''
+	echo "===================== 修改 App版本号 ====================="
+
+	#获取配置信息
+    # appDic=$(/usr/libexec/PlistBuddy -c "Print ${APP_ID}" "${Config_Files_Path}")
+
+    WechatAppID=$(/usr/libexec/PlistBuddy -c "Print :${APP_ID}:WechatAppID" "${Config_Files_Path}")
+    QQAppID16=$(/usr/libexec/PlistBuddy -c "Print :${APP_ID}:QQAppID16" "${Config_Files_Path}")
+    QQAppID=$(/usr/libexec/PlistBuddy -c "Print :${APP_ID}:QQAppID" "${Config_Files_Path}")
+    QQAppID="tencent${QQAppID}"
+
+    # /usr/libexec/PlistBuddy -c "Set :CFBundleURLTypes:0:CFBundleURLSchemes:0 bitauto.ycework" ${InfoPlist_Path}
+    /usr/libexec/PlistBuddy -c "Set :CFBundleURLTypes:1:CFBundleURLSchemes:0 ${WechatAppID}" ${InfoPlist_Path}
+    /usr/libexec/PlistBuddy -c "Set :CFBundleURLTypes:2:CFBundleURLSchemes:0 ${QQAppID16}" ${InfoPlist_Path}
+    /usr/libexec/PlistBuddy -c "Set :CFBundleURLTypes:3:CFBundleURLSchemes:0 ${QQAppID}" ${InfoPlist_Path}
+
+	if [ $? = 0 ]; then
+		echo "************************ 修改分享平台参数 完成 ************************"
+		echo ''
+	else
+		echo "${Error_Prefix}************************ 修改分享平台参数 修改出错！！ ************************"
+		echo ''
+		exit 1;
+	fi
+
 	# 开始自定义打包
 	xcodebuildArchiveCustom
 }
@@ -562,8 +599,14 @@ exportIPA(){
 		exit 1;
 	fi
 
-	# 如果是线上包
-	if [[ ${APP_ID} == "com.bitone.allApp" ]]; then
+    echo "+++++++++++++++++++++++++++++++++++++++++++++++++"
+    echo "ipa 包路径：${IPA_Archiving_Path}"
+    echo "+++++++++++++++++++++++++++++++++++++++++++++++++"
+    open ${IPA_Archiving_Path}
+
+	# 如果需要删除 archive 文件
+	if [[ ${NeedDelete_Xcarchive} == "YES" ]]; then
+        echo ''
 		echo "*********** 删除archive *************"
 		rm -rf "${Xcarchive_path}"
 		if [ $? = 0 ]; then
@@ -575,11 +618,6 @@ exportIPA(){
 			exit 1;
 		fi
 	fi
-
-	echo "+++++++++++++++++++++++++++++++++++++++++++++++++"
-	echo "ipa 包路径：${IPA_Archiving_Path}"
-	echo "+++++++++++++++++++++++++++++++++++++++++++++++++"
-	open ${IPA_Archiving_Path}
 	
 }
 
