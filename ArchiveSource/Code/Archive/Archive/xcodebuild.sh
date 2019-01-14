@@ -99,10 +99,10 @@ cd $Project_Path
 App_Name=`find . -name *.xcodeproj | awk -F "[/.]" '{print $(NF-1)}'`
 Scheme_Name="${App_Name}"
 
-Is_Ework="NO"
-if [[ ${Scheme_Name} == "Ework" ]]; then
-	Is_Ework="YES"
-fi
+# Is_Ework="NO"
+# if [[ ${Scheme_Name} == "Ework" ]]; then
+# 	Is_Ework="YES"
+# fi
 
 Workspace_Path="${Project_Path}/${App_Name}.xcworkspace"
 Xcodeproj_Path="${Project_Path}/${App_Name}.xcodeproj"
@@ -116,11 +116,11 @@ if [ ! -e "${InfoPlist_Path}" ];then
 	InfoPlist_Path="${Project_Path}/${App_Name}/${App_Name}-Info.plist"
 fi
 
-# !!!!! 注意 !!!!!
-# Ework特殊处理，写死 "BitAutoCRM"
-if [[ ${Is_Ework} == "YES" ]]; then
-	InfoPlist_Path="${Project_Path}/BitAutoCRM/Info.plist"
-fi
+# # !!!!! 注意 !!!!!
+# # Ework特殊处理，写死 "BitAutoCRM"
+# if [[ ${Is_Ework} == "YES" ]]; then
+# 	InfoPlist_Path="${Project_Path}/BitAutoCRM/Info.plist"
+# fi
 
 # 加载配置文件ReleaseConfig.plist
 Config_Files_Path="${Project_Path}/BitAutoCRM/Config/ReleaseConfig.plist"
@@ -167,23 +167,23 @@ getAppVersion(){
 	App_Version=$(/usr/libexec/PlistBuddy -c "print CFBundleShortVersionString" ${InfoPlist_Path})
 
 
-	if [[ ${Is_Ework} == "YES" ]]; then
-		if [[ ${APP_ID} == "" ]]
-	    then
-			echo "${Error_Prefix}错误提示：缺少参数 -n（AppID）"
-			exit 1
-		fi
+	# if [[ ${Is_Ework} == "YES" ]]; then
+	# 	if [[ ${APP_ID} == "" ]]
+	#     then
+	# 		echo "${Error_Prefix}错误提示：缺少参数 -n（AppID）"
+	# 		exit 1
+	# 	fi
 
-		# # Ework 特殊处理，直接读取ReleaseConfig.plist的信息
-		# # 获取配置信息
-	    # App_Dic=$(/usr/libexec/PlistBuddy -c "Print ${APP_ID}" "${Config_Files_Path}")
-	    # # app名
-	    # DisplayName=$(/usr/libexec/PlistBuddy -c "Print :${APP_ID}:DisplayName" "${Config_Files_Path}")
-	    The_Major_Version_Number=$(/usr/libexec/PlistBuddy -c "Print :${APP_ID}:The_Major_Version_Number" "${Config_Files_Path}")
-	    The_Minor_Version_Number=$(/usr/libexec/PlistBuddy -c "Print :${APP_ID}:The_Minor_Version_Number" "${Config_Files_Path}")
-	    The_Code_Version_Number=$(/usr/libexec/PlistBuddy -c "Print :${APP_ID}:The_Code_Version_Number" "${Config_Files_Path}")
-		App_Version="${The_Major_Version_Number}.${The_Minor_Version_Number}.${The_Code_Version_Number}"
-	fi
+	# 	# # Ework 特殊处理，直接读取ReleaseConfig.plist的信息
+	# 	# # 获取配置信息
+	#     # App_Dic=$(/usr/libexec/PlistBuddy -c "Print ${APP_ID}" "${Config_Files_Path}")
+	#     # # app名
+	#     # DisplayName=$(/usr/libexec/PlistBuddy -c "Print :${APP_ID}:DisplayName" "${Config_Files_Path}")
+	#     The_Major_Version_Number=$(/usr/libexec/PlistBuddy -c "Print :${APP_ID}:The_Major_Version_Number" "${Config_Files_Path}")
+	#     The_Minor_Version_Number=$(/usr/libexec/PlistBuddy -c "Print :${APP_ID}:The_Minor_Version_Number" "${Config_Files_Path}")
+	#     The_Code_Version_Number=$(/usr/libexec/PlistBuddy -c "Print :${APP_ID}:The_Code_Version_Number" "${Config_Files_Path}")
+	# 	App_Version="${The_Major_Version_Number}.${The_Minor_Version_Number}.${The_Code_Version_Number}"
+	# fi
 
 	
 	if [ ! -n $App_Version ]
@@ -294,7 +294,7 @@ changePbxprojConfig(){
 	changeConfiguration "PRODUCT_BUNDLE_IDENTIFIER" "${APP_ID};"
 
 	#修改 PROVISIONING_PROFILE
-	changeConfiguration "PROVISIONING_PROFILE" "\"${Profile_Name}\";"
+	# changeConfiguration "PROVISIONING_PROFILE" "\"${Profile_Name}\";"
 
 	#修改 PROVISIONING_PROFILE_SPECIFIER
 	changeConfiguration "PROVISIONING_PROFILE_SPECIFIER" "${Profile_Specifier};"
@@ -376,7 +376,10 @@ changeAppVersion(){
 	fi
 
 	# 修改分享平台参数
-	changeShareConfing
+	# changeShareConfing
+
+	# 开始自定义打包
+	xcodebuildArchiveCustom
 }
 
 # 修改分享平台参数

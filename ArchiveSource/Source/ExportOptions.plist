@@ -7,7 +7,10 @@
 	<key>method</key>
 	<string>enterprise</string>
 	<key>provisioningProfiles</key>
-	<dict/>
+	<dict>
+		<key>com.bitone.allApp</key>
+		<string>crmAppRelease</string>
+	</dict>
 	<key>uploadBitcode</key>
 	<string>NO</string>
 	<key>uploadSymbols</key>
