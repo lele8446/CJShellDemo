@@ -1,6 +1,13 @@
 #!/usr/bin/python
 # coding=utf-8
 
+##################################
+# CJLRouterModule.py 路由业务组件模板快速创建脚本
+#
+# 使用方式：./CJLRouterModule.py ModuleName（ModuleName为新建组件名称）
+#
+##################################
+
 import sys
 import os
 import os.path
